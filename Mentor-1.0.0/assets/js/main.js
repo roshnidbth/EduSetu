@@ -9,12 +9,52 @@
 (function() {
   "use strict";
 
+  // Theme (dark mode) initialization and toggle injection
+  (function themeInit(){
+    const applyTheme = (theme) => {
+      try{
+        if (theme === 'dark') document.documentElement.setAttribute('data-theme','dark');
+        else document.documentElement.removeAttribute('data-theme');
+      }catch(e){ }
+    };
+    const saved = localStorage.getItem('theme') || 'light';
+    applyTheme(saved);
+
+    // inject toggle into header controls if present
+    function makeToggle(){
+      const nodes = document.querySelectorAll('.controls-group');
+      nodes.forEach(node => {
+        if (node.querySelector('.theme-toggle')) return; // already
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'theme-toggle';
+        btn.setAttribute('aria-pressed', saved === 'dark' ? 'true' : 'false');
+        btn.innerHTML = `<span class="icon">${saved==='dark'?'🌙':'☀️'}</span><span class="label">${saved==='dark'?'Dark':'Light'}</span>`;
+        btn.addEventListener('click', () => {
+          const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+          const next = cur === 'dark' ? 'light' : 'dark';
+          applyTheme(next);
+          localStorage.setItem('theme', next);
+          btn.setAttribute('aria-pressed', next === 'dark' ? 'true' : 'false');
+          btn.querySelector('.icon').textContent = next === 'dark' ? '🌙' : '☀️';
+          btn.querySelector('.label').textContent = next === 'dark' ? 'Dark' : 'Light';
+        });
+        node.appendChild(btn);
+      });
+    }
+
+    // try immediately and also on load
+    try { makeToggle(); } catch(e){}
+    window.addEventListener('load', makeToggle);
+  })();
+
   /**
    * Apply .scrolled class to the body as the page is scrolled down
    */
   function toggleScrolled() {
     const selectBody = document.querySelector('body');
     const selectHeader = document.querySelector('#header');
+    if (!selectHeader || !selectBody) return; // defensive
     if (!selectHeader.classList.contains('scroll-up-sticky') && !selectHeader.classList.contains('sticky-top') && !selectHeader.classList.contains('fixed-top')) return;
     window.scrollY > 100 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
   }
@@ -28,11 +68,13 @@
   const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
 
   function mobileNavToogle() {
-    document.querySelector('body').classList.toggle('mobile-nav-active');
+    const bodyEl = document.querySelector('body');
+    if (bodyEl) bodyEl.classList.toggle('mobile-nav-active');
+    if (!mobileNavToggleBtn) return;
     mobileNavToggleBtn.classList.toggle('bi-list');
     mobileNavToggleBtn.classList.toggle('bi-x');
   }
-  mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
+  if (mobileNavToggleBtn) mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
 
   /**
    * Hide mobile nav on same-page/hash links
@@ -78,13 +120,15 @@
       window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
     }
   }
-  scrollTop.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+  if (scrollTop) {
+    scrollTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
-  });
+  }
 
   window.addEventListener('load', toggleScrollTop);
   document.addEventListener('scroll', toggleScrollTop);

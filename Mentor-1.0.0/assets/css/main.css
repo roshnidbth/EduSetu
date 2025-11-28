@@ -1,4 +1,3 @@
-
 :root {
   --default-font: "Open Sans",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --heading-font: "Raleway",  sans-serif;
@@ -132,6 +131,38 @@ h6 {
     transform: rotate(360deg);
   }
 }
+
+/* Dark theme (applies site-wide when document.documentElement has data-theme="dark") */
+:root[data-theme="dark"] {
+  --background-color: #0b0c0d;
+  --default-color: #e6e6e6;
+  --heading-color: #ffffff;
+  --accent-color: #ff66a1;
+  --surface-color: #121314;
+  --contrast-color: #ffffff;
+  --nav-color: #e6e6e6;
+  --nav-hover-color: #ff66a1;
+  --nav-mobile-background-color: #121314;
+  --nav-dropdown-background-color: #121314;
+  --nav-dropdown-color: #e6e6e6;
+  --nav-dropdown-hover-color: #ff66a1;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  background: var(--light-background);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--default-color);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.theme-toggle:hover { border-color: var(--accent-color); background: color-mix(in srgb, var(--accent-color), transparent 95%); }
+.theme-toggle .icon { font-size:16px; }
 
 /* Pulsating Play Button
 ------------------------------*/
@@ -1887,4 +1918,3 @@ section,
   object-fit: cover;   /* crop edges to fit perfectly */
   border-radius: 8px;  /* optional: rounded corners */
 }
-

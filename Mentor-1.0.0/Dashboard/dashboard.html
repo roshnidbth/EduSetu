@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Dashboard - EduSetu</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@100;200;300;400;500;600;700;800,900&family=Raleway:wght@100;200;300;400;500;600;700;800,900&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="stylesheet" href="/Dashboard/dashboard.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <h1>EduSetu</h1>
+      </div>
+      <div class="header-right">
+        <div class="controls-group">
+          <select class="language-selector" id="languageSelector">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+          </select>
+          <button class="audio-toggle" id="audioToggle">
+            <i class="bi bi-volume-up-fill"></i>
+            <span id="audioText">Text to Speech: OFF</span>
+          </button>
+        </div>
+        <div class="user-info">
+          <div class="user-details">
+            <h3 id="headerUserName">Babygirl</h3>
+            <p data-i18n="role">Student</p>
+          </div>
+          <div class="user-avatar">B</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Dashboard -->
+  <div class="dashboard-container">
+    <!-- Welcome Section -->
+    <div class="welcome-section" data-speak>
+      <h2 data-i18n="welcome">Welcome back, Babygirl!</h2>
+      <p data-i18n="welcome.sub">Ready to continue your learning journey? You're making great progress!</p>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="two-column-layout">
+      <!-- Last Activity Section -->
+      <div class="last-activity">
+        <h3 data-i18n="recent_activity"><i class="bi bi-clock-history"></i> Recent Activity</h3>
+        
+        <div class="activity-item" onclick="openCourse('algebra')" data-speak>
+          <div class="activity-icon">
+            <i class="bi bi-calculator"></i>
+          </div>
+          <div class="activity-details">
+            <h4>Completed: Quadratic Equations</h4>
+            <p>Mathematics - Algebra • 2 hours ago</p>
+          </div>
+        </div>
+
+        <div class="activity-item" onclick="openCourse('physics')" data-speak>
+          <div class="activity-icon">
+            <i class="bi bi-lightbulb"></i>
+          </div>
+          <div class="activity-details">
+            <h4>Started: Newton's Laws of Motion</h4>
+            <p>Science - Physics • Yesterday at 4:30 PM</p>
+          </div>
+        </div>
+
+        <div class="activity-item" onclick="openCourse('economics')" data-speak>
+          <div class="activity-icon">
+            <i class="bi bi-graph-up"></i>
+          </div>
+          <div class="activity-details">
+            <h4>Quiz Score: 85%</h4>
+            <p>Economics - Production and Consumption • 2 days ago</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Score Streak Section -->
+      <div class="score-streak">
+        <h3 data-i18n="learning_streak"><i class="bi bi-fire"></i> Learning Streak</h3>
+        <div class="streak-info" data-speak>
+          <div class="streak-number">12</div>
+          <div class="streak-text">
+            <strong data-i18n="days_in_a_row">Days in a row!</strong><br>
+            <span data-i18n="keep_it_up">Keep it up!</span>
+          </div>
+        </div>
+        <div class="calendar-grid" id="calendar"></div>
+      </div>
+    </div>
+
+    <!-- Courses Section -->
+    <div class="courses-section">
+      <h3 data-i18n="your_courses">Your Courses</h3>
+      <div class="courses-grid">
+        <!-- Mathematics Course -->
+        <div class="course-card" onclick="openCourse('algebra')">
+          <img src="/assets/img/course-1.jpg" alt="Mathematics" class="course-image">
+          <div class="course-content" data-speak>
+            <span class="course-category" data-i18n="category.mathematics">Mathematics</span>
+            <h4>Algebra</h4>
+            <div class="course-progress">
+              <div class="progress-label">
+                <span data-i18n="progress">Progress</span>
+                <span>65%</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: 65%"></div>
+              </div>
+            </div>
+            <button class="continue-btn" data-i18n="continue_learning">Continue Learning</button>
+          </div>
+        </div>
+
+        <!-- Physics Course -->
+        <div class="course-card" onclick="openCourse('physics')">
+          <img src="/assets/img/course-2.jpg" alt="Physics" class="course-image">
+          <div class="course-content" data-speak>
+            <span class="course-category" data-i18n="category.science">Science</span>
+            <h4>Physics</h4>
+            <div class="course-progress">
+              <div class="progress-label">
+                <span>Progress</span>
+                <span>42%</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: 42%"></div>
+              </div>
+            </div>
+            <button class="continue-btn" data-i18n="continue_learning">Continue Learning</button>
+          </div>
+        </div>
+
+        <!-- Economics Course -->
+        <div class="course-card" onclick="openCourse('economics')">
+          <img src="/assets/img/course-3.jpg" alt="Economics" class="course-image">
+          <div class="course-content" data-speak>
+            <span class="course-category" data-i18n="category.economics">Economics</span>
+            <h4>Production and Consumption</h4>
+            <div class="course-progress">
+              <div class="progress-label">
+                <span>Progress</span>
+                <span>78%</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: 78%"></div>
+              </div>
+            </div>
+            <button class="continue-btn" data-i18n="continue_learning">Continue Learning</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Modal -->
+  <div class="modal" id="courseModal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal()">&times;</span>
+      <h3 id="modalTitle">Course Title</h3>
+      <p id="modalDescription">Course description goes here</p>
+      <div class="lesson-list" id="lessonList"></div>
+    </div>
+  </div>
+
+  <!-- Chatbot slide UI -->
+  <div class="chatbot">
+    <button id="chatToggle" class="chat-toggle" aria-label="Open chat">💬</button>
+    <aside id="chatPanel" class="chat-panel" aria-hidden="true">
+      <header class="chat-header">
+        <div class="chat-title">EduSetu Assistant</div>
+        <button id="chatClose" class="chat-close" aria-label="Close chat">✕</button>
+      </header>
+      <main class="chat-body" id="chatBody" role="log" aria-live="polite">
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-status" id="chatStatus"></div>
+      </main>
+      <form id="chatForm" class="chat-form" aria-label="Ask the Assistant">
+        <input id="chatInput" class="chat-input" type="text" placeholder="Ask me anything..." aria-label="Message input" autocomplete="off" />
+        <button type="submit" class="chat-send">Send</button>
+      </form>
+    </aside>
+  </div>
+
+  <script src="/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="/assets/vendor/aos/aos.js"></script>
+  <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+  <script src="/Dashboard/dashboard.js"></script>
+</body>
+</html>

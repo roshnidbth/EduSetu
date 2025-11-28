@@ -26,6 +26,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/custom.css" rel="stylesheet">
 
 
 </head>
@@ -78,7 +79,7 @@
           <div class="row d-flex justify-content-center text-center">
             <div class="col-lg-8">
               <h1>Courses</h1>
-              <p class="mb-0">Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
+              <p class="mb-0">Unlock your potential with EduSetu's inclusive courses. We offer a variety of free, high-quality courses designed to make learning accessible and engaging for every student. Begin your educational journey with us and discover a world of knowledge.</p>
             </div>
           </div>
         </div>
@@ -102,7 +103,7 @@
 
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
             <div class="course-item">
-              <img src="assets/img/mathcourse.jpeg" class="img-fluid" alt="...">
+              <img src="assets/img/gemini maths.png" class="img-fluid" alt="...">
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <p class="category">Mathematics</p>
@@ -118,7 +119,7 @@
 
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
             <div class="course-item">
-              <img src="assets/img/physicscourse.jpg" class="img-fluid" alt="...">
+              <img src="assets/img/gemini science.png" class="img-fluid" alt="...">
               <div class="course-content">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <p class="category">Science</p>
@@ -240,6 +241,71 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- Runtime fixer: ensure CSS/JS/images load correctly when served from different base paths -->
+  <script>
+    (function() {
+      try {
+        const createLink = (href) => {
+          const l = document.createElement('link');
+          l.rel = 'stylesheet';
+          l.href = href;
+          document.head.appendChild(l);
+        };
+        const basePath = (function() {
+          // derive folder of current html
+          const p = window.location.pathname;
+          return window.location.origin + p.substring(0, p.lastIndexOf('/') + 1);
+        })();
+
+        // list of css files that the page expects
+        const cssFiles = [
+          'assets/vendor/bootstrap/css/bootstrap.min.css',
+          'assets/vendor/bootstrap-icons/bootstrap-icons.css',
+          'assets/vendor/aos/aos.css',
+          'assets/vendor/glightbox/css/glightbox.min.css',
+          'assets/vendor/swiper/swiper-bundle.min.css',
+          'assets/css/main.css',
+          'assets/css/custom.css'
+        ];
+
+        cssFiles.forEach(f => {
+          // if a matching link doesn't already exist, add it using derived base
+          const exists = Array.from(document.querySelectorAll('link[rel="stylesheet"]').namedItem ? document.querySelectorAll('link[rel="stylesheet"]') : document.getElementsByTagName('link')).some(l => l.href && l.href.indexOf(f) !== -1);
+          if (!exists) createLink(basePath + f);
+        });
+
+        // fix image srcs that are relative (starting with assets/)
+        document.querySelectorAll('img').forEach(img => {
+          const src = img.getAttribute('src') || '';
+          if (src && !src.match(/^https?:\/\//) && !src.startsWith('/')) {
+            if (src.startsWith('assets/')) {
+              img.src = basePath + src;
+            }
+          }
+        });
+
+        // load vendor scripts if missing (purecounter, aos, glightbox, swiper)
+        const scriptFiles = [
+          'assets/vendor/purecounter/purecounter_vanilla.js',
+          'assets/vendor/aos/aos.js',
+          'assets/vendor/glightbox/js/glightbox.min.js',
+          'assets/vendor/swiper/swiper-bundle.min.js'
+        ];
+        scriptFiles.forEach(f => {
+          const exists = Array.from(document.scripts).some(s => s.src && s.src.indexOf(f) !== -1);
+          if (!exists) {
+            const s = document.createElement('script');
+            s.src = basePath + f;
+            s.defer = true;
+            document.body.appendChild(s);
+          }
+        });
+      } catch (err) {
+        console.warn('Asset fixer failed', err);
+      }
+    })();
+  </script>
 
 </body>
 
